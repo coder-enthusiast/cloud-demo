@@ -1,5 +1,6 @@
 package com.lsx.consumer.Controller;
 
+import com.lsx.consumer.client.UserClient;
 import com.lsx.consumer.pojo.User;
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -8,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.netflix.ribbon.RibbonLoadBalancerClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -29,6 +27,9 @@ public class ConsumerController {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private UserClient userClient;
 
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
     public User queryByid(@PathVariable("id") Integer id){
@@ -88,6 +89,11 @@ public class ConsumerController {
         return "请求超时，服务器拥挤。";
     }
 
+    /**用feign来调用服务端。**/
+    @GetMapping("/Feign/{id}")
+    public User FeignQueryById(@PathVariable("id")Integer id){
+        return userClient.queryById(id);
+    }
 
 
 }
