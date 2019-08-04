@@ -65,11 +65,16 @@ public class ConsumerController {
      * **/
     @RequestMapping(value = "/Hystrix/{id}",method = RequestMethod.GET)
     //@HystrixCommand(fallbackMethod = "HystrixQueryByIdFallback")
-  /*  @HystrixCommand(commandProperties = {
-            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value = "3000")
-    })*/
+    @HystrixCommand(commandProperties = {
+            @HystrixProperty(name="circuitBreaker.requestVolumeThreshold",value = "10"),
+            @HystrixProperty(name="circuitBreaker.sleepWindowInMilliseconds",value = "10000"),
+            @HystrixProperty(name="circuitBreaker.errorThresholdPercentage",value = "60")
+    })
     public String Hystrix_queryById(@PathVariable("id") Integer id){
         //@LoadBalanced对RestTemplate进行注解，添加拦截器，对service-id拦截，返回service对应的地址。
+        if(id % 2 == 0){
+            throw new RuntimeException();
+        }
         String url="http://user-service/user/"+id;
         String user=restTemplate.getForObject(url,String.class);
         return user;
