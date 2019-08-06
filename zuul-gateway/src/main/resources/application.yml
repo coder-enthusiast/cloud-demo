@@ -11,8 +11,21 @@ eureka:
   instance:
     ip-address: true
 zuul:
-  #ignored-services: '*'
+  prefix: /api
   routes:
     user-service:
-      parh: /user/**
-
+      path: /user/**
+      serviceId: user-service
+      strip-prefix: false
+  ignored-services:
+    - consumer-service
+hystrix:
+  commadnd:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000
+ribbon:
+  ConnectionTimeOut: 500
+  ReadTimeOut: 1000
