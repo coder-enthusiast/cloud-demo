@@ -1,0 +1,24 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/shop
+    name: root
+    password: 123456
+  application:
+    name: user-service
+mybatis:
+  type-alises-package=com: com.lsx.user.pojo
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8900/eureka
+  instance:
+    #服务失效时间，默认90秒
+    lease-expiration-duration-in-seconds: 90
+    #服务续约（renew）的时间，默认30秒
+    lease-renewal-interval-in-seconds: 30
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+
