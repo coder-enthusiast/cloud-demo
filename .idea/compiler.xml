@@ -9,6 +9,7 @@
         <module name="consumer-demo" />
         <module name="eureka-server" />
         <module name="user-service" />
+        <module name="zuulgateway" />
       </profile>
     </annotationProcessing>
   </component>

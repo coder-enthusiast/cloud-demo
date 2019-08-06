@@ -1,0 +1,18 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: zuul-gateway
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8900/eureka
+  instance:
+    ip-address: true
+zuul:
+  #ignored-services: '*'
+  routes:
+    user-service:
+      parh: /user/**
+
